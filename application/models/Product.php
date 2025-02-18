@@ -15,6 +15,13 @@ class Product extends CI_Model
         return $this->db->get('products')->result();
     }
 
+    public function search_products($keyword)
+    {
+        $this->db->like('name', $keyword);
+        return $this->db->get('products')->result();
+    }
+
+
     // Ambil produk berdasarkan ID
     public function get_by_id($id)
     {

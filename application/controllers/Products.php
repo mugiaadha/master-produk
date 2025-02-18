@@ -16,7 +16,13 @@ class Products extends CI_Controller
 
     public function index()
     {
-        $data['products'] = $this->product->get_all();
+        $keyword = $this->input->get('search');
+
+        if ($keyword) {
+            $data['products'] = $this->product->search_products($keyword);
+        } else {
+            $data['products'] = $this->product->get_all();
+        }
 
         $this->load->view('products/index', $data);
     }

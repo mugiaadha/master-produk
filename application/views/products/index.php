@@ -27,7 +27,7 @@
             <!-- Tombol Tambah Produk di Kanan -->
             <div class="col-6 d-flex justify-content-end">
                 <form action="<?= site_url('products') ?>" method="GET" class="d-flex">
-                    <input type="text" name="search" class="form-control me-2" placeholder="Cari produk...">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Cari produk..." value="<?= $_GET['search']; ?>">
                     <button type="submit" class="btn btn-primary">Cari</button>
                 </form>
             </div>
