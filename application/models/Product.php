@@ -6,7 +6,7 @@ class Product extends CI_Model
     public function __construct()
     {
         parent::__construct();
-        $this->load->database(); // Tambahkan ini
+        $this->load->database();
     }
 
     // Ambil semua produk
@@ -28,4 +28,18 @@ class Product extends CI_Model
     }
 
     // Update produk
+    public function update($id, $name, $price, $stock, $is_sell)
+    {
+        // Update data produk
+        $data = [
+            'name' => $name,
+            'price' => $price,
+            'stock' => $stock,
+            'is_sell' => $is_sell
+        ];
+
+        // Perbarui data produk
+        $this->db->where('id', $id);
+        $this->db->update('products', $data);
+    }
 }
