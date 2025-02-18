@@ -15,9 +15,14 @@ class Product extends CI_Model
         return $this->db->get('products')->result();
     }
 
-    public function search_products($keyword)
+    public function search_products($keyword, $sort, $order)
     {
         $this->db->like('name', $keyword);
+        if (in_array($sort, ['name', 'price', 'stock', 'is_sell'])) {
+            $this->db->order_by($sort, $order);
+        } else {
+            $this->db->order_by('name', 'asc');
+        }
         return $this->db->get('products')->result();
     }
 
@@ -50,9 +55,21 @@ class Product extends CI_Model
         $this->db->update('products', $data);
     }
 
+    public function update_status($product_id, $status)
+    {
+        // Update status produk di database
+        $data = [
+            'is_sell' => $status
+        ];
+
+        // Proses update berdasarkan ID produk
+        $this->db->where('id', $product_id);
+        $this->db->update('products', $data);
+    }
+
+
     public function delete($id)
     {
         return $this->db->delete('products', array('id' => $id));  // Menghapus produk berdasarkan ID
     }
-
 }

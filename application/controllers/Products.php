@@ -17,9 +17,11 @@ class Products extends CI_Controller
     public function index()
     {
         $keyword = $this->input->get('search');
+        $sort = $this->input->get('sort');
+        $order = $this->input->get('order');
 
-        if ($keyword) {
-            $data['products'] = $this->product->search_products($keyword);
+        if ($keyword || $sort || $order) {
+            $data['products'] = $this->product->search_products($keyword, $sort, $order);
         } else {
             $data['products'] = $this->product->get_all();
         }
@@ -30,6 +32,16 @@ class Products extends CI_Controller
     public function add()
     {
         $this->load->view('products/add');
+    }
+
+    public function edit($id)
+    {
+        $data['product'] = $this->product->get_by_id($id);
+        if ($data['product']) {
+            $this->load->view('products/edit', $data);
+        } else {
+            echo "Produk tidak ditemukan.";
+        }
     }
 
     public function insert()
@@ -65,17 +77,6 @@ class Products extends CI_Controller
         }
     }
 
-
-    public function edit($id)
-    {
-        $data['product'] = $this->product->get_by_id($id);
-        if ($data['product']) {
-            $this->load->view('products/edit', $data);
-        } else {
-            echo "Produk tidak ditemukan.";
-        }
-    }
-
     public function update($id)
     {
         // Tentukan aturan validasi untuk input form
@@ -106,6 +107,33 @@ class Products extends CI_Controller
             redirect('products');
         }
     }
+
+    public function update_status($product_id)
+    {
+        // Ambil status yang dipilih dari input POST
+        $status = $this->input->post('status');
+
+        // Validasi status yang diterima (0 atau 1)
+        if ($status !== null && ($status == 0 || $status == 1)) {
+            // Periksa apakah produk dengan ID yang diberikan ada di database
+            $product = $this->product->get_by_id($product_id);
+            if ($product) {
+                // Update status produk di database
+                $this->product->update_status($product_id, $status);
+                $this->session->set_flashdata('success', 'Status produk berhasil diperbarui.');
+            } else {
+                // Jika produk tidak ditemukan
+                $this->session->set_flashdata('error', 'Produk tidak ditemukan.');
+            }
+        } else {
+            // Jika status tidak valid
+            $this->session->set_flashdata('error', 'Status produk tidak valid.');
+        }
+
+        // Redirect ke halaman daftar produk
+        redirect('products');
+    }
+
 
     public function delete($id)
     {
