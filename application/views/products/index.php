@@ -7,7 +7,6 @@
 </head>
 
 <body>
-
     <div class="container mt-5">
         <h2 class="text-center mb-4">Daftar Produk</h2>
         <?php if ($this->session->flashdata('success')): ?>
@@ -19,10 +18,23 @@
                 <?= $this->session->flashdata('error'); ?>
             </div>
         <?php endif; ?>
+        <div class="row mb-4">
+            <!-- Form Filter Search di Kiri -->
+            <div class="col-6">
+                <a href="<?= site_url('products/add') ?>" class="btn btn-success">Tambah Produk</a>
+            </div>
 
+            <!-- Tombol Tambah Produk di Kanan -->
+            <div class="col-6 d-flex justify-content-end">
+                <form action="<?= site_url('products') ?>" method="GET" class="d-flex">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Cari produk...">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </form>
+            </div>
+        </div>
 
-        <table class="table table-bordered table-striped">
-            <thead class="table-primary">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-default">
                 <tr>
                     <th>#</th>
                     <th>Nama Produk</th>

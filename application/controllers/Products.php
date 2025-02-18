@@ -21,6 +21,45 @@ class Products extends CI_Controller
         $this->load->view('products/index', $data);
     }
 
+    public function add()
+    {
+        $this->load->view('products/add');
+    }
+
+    public function insert()
+    {
+        // Tentukan aturan validasi untuk input form
+        $this->form_validation->set_rules('name', 'Nama Produk', 'required|min_length[3]|max_length[255]');
+        $this->form_validation->set_rules('price', 'Harga', 'required|numeric');
+        $this->form_validation->set_rules('stock', 'Jumlah Stok', 'required|numeric');
+        $this->form_validation->set_rules('is_sell', 'Status Produk', 'required|in_list[0,1]'); // 0 atau 1
+
+        if ($this->form_validation->run() === FALSE) {
+            // notifikasi gagal
+            $this->session->set_flashdata('error', 'Produk gagal ditambah!');
+
+            // kembali ke form tambah produk
+            $this->load->view('products/add');
+        } else {
+            // Menyimpan produk ke database
+            $data = array(
+                'name' => $this->input->post('name'),
+                'price' => $this->input->post('price'),
+                'stock' => $this->input->post('stock'),
+                'is_sell' => $this->input->post('is_sell')
+            );
+
+            $this->product->insert($data);
+
+            // Set flashdata success message
+            $this->session->set_flashdata('success', 'Produk berhasil ditambahkan.');
+
+            // Redirect ke halaman produk
+            redirect('products');
+        }
+    }
+
+
     public function edit($id)
     {
         $data['product'] = $this->product->get_by_id($id);
