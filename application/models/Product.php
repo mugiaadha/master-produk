@@ -1,0 +1,31 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class Product extends CI_Model
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->database(); // Tambahkan ini
+    }
+
+    // Ambil semua produk
+    public function get_all()
+    {
+        return $this->db->get('products')->result();
+    }
+
+    // Ambil produk berdasarkan ID
+    public function get_by_id($id)
+    {
+        return $this->db->get_where('products', ['id' => $id])->row();
+    }
+
+    // Tambah produk baru
+    public function insert($data)
+    {
+        return $this->db->insert('products', $data);
+    }
+
+    // Update produk
+}
