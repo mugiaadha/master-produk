@@ -10,6 +10,11 @@
 
     <div class="container mt-5">
         <h2 class="text-center mb-4">Daftar Produk</h2>
+        <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success">
+                <?= $this->session->flashdata('success'); ?>
+            </div>
+        <?php endif; ?>
 
         <table class="table table-bordered table-striped">
             <thead class="table-primary">

@@ -12,6 +12,12 @@
     <div class="container mt-5">
         <h2 class="text-center mb-4">Edit Produk</h2>
 
+        <?php if ($this->session->flashdata('danger')): ?>
+            <div class="alert alert-danger">
+                <?= validation_errors(); ?>
+            </div>
+        <?php endif; ?>
+
         <!-- Form Edit Produk -->
         <?php echo form_open('products/update/' . $product->id); ?>
 
