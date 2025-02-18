@@ -43,7 +43,7 @@ class Products extends CI_Controller
         if ($this->form_validation->run() === FALSE) {
             // Ambil data produk berdasarkan ID
             $data['product'] = $this->product->get_by_id($id);
-            $this->session->set_flashdata('danger', 'Produk gagal diperbaharui!');
+            $this->session->set_flashdata('error', 'Produk gagal diperbaharui!');
             // Tampilkan halaman edit dengan error validasi
             $this->load->view('products/edit', $data);
         } else {
@@ -60,5 +60,20 @@ class Products extends CI_Controller
             $this->session->set_flashdata('success', 'Produk berhasil diperbarui!');
             redirect('products');
         }
+    }
+
+    public function delete($id)
+    {
+        // Validasi ID produk
+        if ($this->product->delete($id)) {
+            // Menyimpan pesan sukses ke flash data
+            $this->session->set_flashdata('success', 'Produk berhasil dihapus.');
+        } else {
+            // Menyimpan pesan error ke flash data
+            $this->session->set_flashdata('error', 'Terjadi kesalahan, produk gagal dihapus.');
+        }
+
+        // Redirect ke halaman daftar produk
+        redirect('products');
     }
 }

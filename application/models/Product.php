@@ -42,4 +42,10 @@ class Product extends CI_Model
         $this->db->where('id', $id);
         $this->db->update('products', $data);
     }
+
+    public function delete($id)
+    {
+        return $this->db->delete('products', array('id' => $id));  // Menghapus produk berdasarkan ID
+    }
+
 }

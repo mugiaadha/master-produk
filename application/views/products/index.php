@@ -14,7 +14,12 @@
             <div class="alert alert-success">
                 <?= $this->session->flashdata('success'); ?>
             </div>
+        <?php elseif ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger">
+                <?= $this->session->flashdata('error'); ?>
+            </div>
         <?php endif; ?>
+
 
         <table class="table table-bordered table-striped">
             <thead class="table-primary">
